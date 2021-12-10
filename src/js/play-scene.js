@@ -41,6 +41,16 @@ class PlayScene extends Phaser.Scene {
         this.player.setBounce(0.1);
         this.player.setCollideWorldBounds(true);
 
+        this.speedItem = this.physics.add.group({
+            key: 'speedItem',
+            repeat: 3,
+            setXY: { 
+                x: 0, 
+                y: 0,
+                stepX: 300
+            }
+        });
+        
         // skapa en fysik-grupp
         this.spikes = this.physics.add.group({
             allowGravity: false,
@@ -71,8 +81,9 @@ class PlayScene extends Phaser.Scene {
             this
         );
 
-        // krocka med platforms lagret
+        // Colliders
         this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.speedItem, this.platforms);
 
         // skapa text på spelet, texten är tom
         // textens innehåll sätts med updateText() metoden
@@ -172,6 +183,7 @@ class PlayScene extends Phaser.Scene {
 
     // när vi skapar scenen så körs initAnims för att ladda spelarens animationer
     initAnims() {
+
         this.anims.create({
             key: 'walk',
             frames: this.anims.generateFrameNames('player', {
